@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Profil gwahj</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Halaman utama */
+  #page1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url("bg1.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Halaman kedua dan lain-lain */
+  #page2, #pageKeluarga, #pageKonco, #pageSekolah {
+    display: none;
+    padding: 20px;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+  }
+
+  #page2 {
+    background-image: url("bg2.jpg");
+  }
+  #pageKeluarga {
+    background-image: url("kbg.jpg");
+  }
+  #pageKonco {
+    background-image: url("kobg.jpg");
+  }
+  #pageSekolah {
+    background-image: url("sbg.jpg");
+  }
+
+  /* Foto profil bulat */
+  .circle-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid transparent;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(255,255,255,0.5);
+  }
+
+  .circle-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Tombol masuk */
+  .btn-masuk {
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #800080;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: background-color 0.3s, transform 0.2s;
+  }
+
+  .btn-masuk:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+  }
+
+  /* Button Home dan menu dropdown */
+  .top-left {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+  }
+
+  .home-btn {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+
+  .home-btn:hover {
+    background-color: #444;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  }
+
+  /* Menu dropdown */
+  .menu {
+    margin-top: 10px;
+    display: none;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    width: 150px;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .menu button {
+    padding: 12px;
+ background: dimgray; 
+    border: none;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+  }
+
+  .menu button:hover {
+    background-color: transparent;
+  }
+
+  /* Tombol kembali */
+  .btn-kembali {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+
+  .btn-kembali:hover {
+    background-color: #0069d9;
+    transform: translateY(-2px);
+  }
+
+  /* Galeri foto grid */
+  .photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .photos-grid img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s, opacity 0.5s;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .photos-grid img.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Info default di halaman utama */
+  #defaultInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    text-align: center;
+    padding: 20px;
+    background-color: transparent; /* diperbaiki */
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(255,255,255,0.7);
+    max-width: 400px;
+    margin: auto;
+  }
+</style>
+</head>
+<body>
+
+<!-- Halaman utama -->
+<div id="page1">
+  <div class="circle-photo">
+    <img src="pp1.jpg" alt="Foto Profil" />
+  </div>
+  <button class="btn-masuk" onclick="showPage2()">Masuk</button>
+</div>
+
+<!-- Halaman utama setelah masuk -->
+<div id="page2">
+  <div class="top-left">
+    <button class="home-btn" onclick="toggleMenu()">Home</button>
+    <div class="menu" id="menuDropdown">
+      <button onclick="showHalaman('konco')">Konco</button>
+      <button onclick="showHalaman('keluarga')">Keluarga</button>
+      <button onclick="showHalaman('sekolah')">Sekolah</button>
+    </div>
+  </div>
+  <div style="margin-top: 70px; text-align: center;">
+    <img src="pp2.png" alt="Foto Profil" style="border-radius:1000%; width:200px; height:200px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);" />
+    <div id="defaultInfo">
+      <h3 style="margin-bottom: 15px;">
+        <p><strong>Nama:</strong> Abdul Faza Al Fauz</p>
+        <p><strong>Umur:</strong> 17 Tahun</p>
+        <p><strong>Alamat:</strong> Pekalongan,Jawa Tengah, Indonesia</p>
+        <p><strong>Email:</strong> fazaalfaus@gmail.com</p>
+      </h3>
+    </div>
+  </div>
+</div>
+
+<!-- Halaman Konco -->
+<div id="pageKonco">
+  <div style="text-align: center;">
+    <button class="btn-kembali" onclick="kembaliKeHome()">Kembali</button>
+    <h2 style="margin-top: 20px;">Konco</h2>
+    <div class="photos-grid" id="koncoPhotos"></div>
+  </div>
+</div>
+
+<!-- Halaman Keluarga -->
+<div id="pageKeluarga">
+  <div style="text-align: center;">
+    <button class="btn-kembali" onclick="kembaliKeHome()">Kembali</button>
+    <h2 style="margin-top: 30px;">Keluarga</h2>
+    <div class="photos-grid" id="keluargaPhotos"></div>
+  </div>
+</div>
+
+<!-- Halaman Sekolah -->
+<div id="pageSekolah">
+  <div style="text-align: center;">
+    <button class="btn-kembali" onclick="kembaliKeHome()">Kembali</button>
+    <h2 style="margin-top: 20px;">Sekolah</h2>
+    <div class="photos-grid" id="sekolahPhotos"></div>
+  </div>
+</div>
+
+<!-- Musik latar belakang -->
+<audio id="backgroundMusic" loop autoplay>
+  <source src="auu.mp3" type="audio/mpeg" />
+  Browser Anda tidak mendukung elemen audio.
+</audio>
+
+<script>
+  // Data gambar
+  const gambarKeluarga = ["k1.jpg","k2.jpg","k3.jpg","k4.jpg","k5.jpg","k6.jpg","k7.jpg","k9.jpg","k8.jpg","k10.jpg","k11.jpg","k12.jpg","k13.jpg","k14.jpg","k15.jpg","k16.jpg","k17.jpg","k19.jpg","k20.jpg","k21.jpg","k22.jpg","k23.jpg","k24.jpg","k25.jpg"];
+
+  const gambarKonco = ["ko1.jpg","ko2.jpg","ko3.jpg","ko4.jpg","ko5.jpg","ko6.jpg","ko7.jpg","ko9.jpg","ko8.jpg","ko10.jpg","ko11.jpg","ko12.jpg","ko13.jpg","ko14.jpg","ko15.jpg","ko16.jpg","ko17.jpg","ko19.jpg"];
+
+  const gambarSekolah = ["s1.jpg","s2.jpg","s3.jpg","s4.jpg","s5.jpg","s6.jpg","s7.jpg","s9.jpg","s8.jpg","s10.jpg","s11.jpg","s12.jpg","s13.jpg","s14.jpg","s15.jpg","s16.jpg","s17.jpg","s19.jpg","s20.jpg","s21.jpg","s22.jpg","s23.jpg","s24.jpg","s25.jpg"];
+
+  // Fungsi untuk menampilkan galeri foto
+  function loadPhotos(containerId, images) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    images.forEach((src, index) => {
+      const img = document.createElement('img');
+      img.src = src;
+      setTimeout(() => {
+        img.classList.add('show');
+      }, index * 100);
+      container.appendChild(img);
+    });
+  }
+
+  // Fungsi untuk menampilkan halaman tertentu
+  function showHalaman(nama) {
+    document.getElementById('page2').style.display = 'none';
+    document.getElementById('pageKonco').style.display = 'none';
+    document.getElementById('pageKeluarga').style.display = 'none';
+    document.getElementById('pageSekolah').style.display = 'none';
+
+    if (nama === 'konco') {
+      document.getElementById('pageKonco').style.display = 'block';
+      loadPhotos('koncoPhotos', gambarKonco);
+    } else if (nama === 'keluarga') {
+      document.getElementById('pageKeluarga').style.display = 'block';
+      loadPhotos('keluargaPhotos', gambarKeluarga);
+    } else if (nama === 'sekolah') {
+      document.getElementById('pageSekolah').style.display = 'block';
+      loadPhotos('sekolahPhotos', gambarSekolah);
+    }
+  }
+
+  // Kembali ke halaman utama
+  function kembaliKeHome() {
+    document.getElementById('page2').style.display = 'block';
+    document.getElementById('pageKonco').style.display = 'none';
+    document.getElementById('pageKeluarga').style.display = 'none';
+    document.getElementById('pageSekolah').style.display = 'none';
+  }
+
+  // Toggle menu dropdown
+  function toggleMenu() {
+    const menu = document.getElementById('menuDropdown');
+    if (menu.style.display === 'flex') {
+      menu.style.display = 'none';
+    } else {
+      menu.style.display = 'flex';
+    }
+  }
+
+  // Tutup menu saat klik di luar
+  document.addEventListener('click', function(event) {
+    const menu = document.getElementById('menuDropdown');
+    const button = document.querySelector('.home-btn');
+    if (!button.contains(event.target) && !menu.contains(event.target)) {
+      menu.style.display = 'none';
+    }
+  });
+
+  // Pindah ke halaman kedua
+  function showPage2() {
+    document.getElementById('page1').style.display = 'none';
+    document.getElementById('page2').style.display = 'block';
+    document.getElementById('pageKonco').style.display = 'none';
+    document.getElementById('pageKeluarga').style.display = 'none';
+    document.getElementById('pageSekolah').style.display = 'none';
+  }
+
+  // Mainkan musik
+  const music = document.getElementById('backgroundMusic');
+  document.querySelector('.btn-masuk').addEventListener('click', () => {
+    music.play();
+  });
+</script>
+</body>
+</html>
